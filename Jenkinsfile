@@ -4,7 +4,9 @@ pipeline{
 
    agent any
     //agent { label 'Demo' }
-
+   tools {
+        jfrog 'jf-cli'
+    }
 
     parameters{
 
@@ -72,6 +74,11 @@ pipeline{
                    
                    mvnBuild()
                }
+            }
+        }
+       stage('Publish to JFROG') {
+            steps {
+                jf 'rt u kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar example-repo-local/'
             }
         }
         stage('Docker Image Build'){
